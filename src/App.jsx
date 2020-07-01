@@ -31,9 +31,9 @@ class App extends Component {
                     break;
                 case 40 : this.pieceMoveToYAxis(1)
                     break;
-                case 88 : this.rotatePieceToRight()
+                case 88 : this.rotatePiece("right")
                     break;
-                case 89 : this.rotatePieceToLeft()
+                case 89 : this.rotatePiece("left")
                     break;
                 default : break;
             
@@ -147,62 +147,67 @@ class App extends Component {
         }
         
     }
-    
-    rotatePieceToRight = () => {
+
+    rotatePiece = (direction) => {
         let piece = { ... this.state.piece}
         if (piece ===null){
             return false
         }
         let newGrid = []
         console.log(piece.grid)
-        for (let x = 0; x<piece.grid[0].length; x++) {
-            let line = []
-            for(let y = piece.grid.length-1; y>-1; y--){
-                line.push(piece.grid[y][x])
+        if (direction === "right"){
+            for (let x = 0; x<piece.grid[0].length; x++) 
+            {
+                let line = []
+                for(let y = piece.grid.length-1; y>-1; y--){
+                    line.push(piece.grid[y][x])
+            }
+        
+            newGrid.push(line)
+            }
+        } 
+        if (direction === "left")
+        {
+            for (let x = piece.grid[0].length-1; x>-1; x--)
+             {
+                let line = []
+                for(let y = 0; y<piece.grid.length; y++){
+                    line.push(piece.grid[y][x])
+                }
+        
+            newGrid.push(line)
+            }
+        }
+        piece.grid = newGrid
+        let coordinate = this.pieceCanBeMove(piece)
+        if (coordinate !== false) {
+            piece.mergeData = coordinate 
+            this.setState({piece})
+        
+        } else {
+            if (piece.posX<0){
+                piece.posX=0
+                coordinate = this.pieceCanBeMove(piece)
+                if (coordinate !== false){
+                    piece.mergeData = coordinate
+                    this.setState({piece})
+                } 
+                
+                }
+    
+                else if (piece.grid[0].length + this.state.gridWidth > this.state.gridWidth){
+                    piece.posX = this.state.gridWidth - piece.grid[0].length
+                    coordinate = this.pieceCanBeMove(piece)
+                    if (coordinate !== false){
+                        piece.mergeData = coordinate
+                        this.setState({piece})
+                    } 
+                }
+        }
         }
     
-        newGrid.push(line)
-}
-    piece.grid = newGrid
-    let coordinate = this.pieceCanBeMove(piece)
-    if (coordinate !== false) {
-        piece.mergeData = coordinate 
-        this.setState({piece})
     
-    } else {
-        //pas de rotation
-    }
-
-}
-
-rotatePieceToLeft = () => {
-    let piece = { ... this.state.piece}
-    if (piece ===null){
-        return false
-    }
-    let newGrid = []
-    console.log(piece.grid)
-    for (let x = piece.grid[0].length-1; x>-1; x--) {
-        let line = []
-        for(let y = 0; y<piece.grid.length; y++){
-            line.push(piece.grid[y][x])
-    }
-
-    newGrid.push(line)
-}
-piece.grid = newGrid
-let coordinate = this.pieceCanBeMove(piece)
-if (coordinate !== false) {
-    piece.mergeData = coordinate 
-    this.setState({piece})
-
-} else {
-    //pas de rotation
-}
-
-}
-
-
+   
 
   render(){
     return(
