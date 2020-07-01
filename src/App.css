@@ -15,3 +15,8 @@
   clear : both
 }
 
+#grid span.color{
+  background-color: black;
+  color: aliceblue;
+}
+
