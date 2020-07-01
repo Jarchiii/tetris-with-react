@@ -31,6 +31,11 @@ class App extends Component {
                     break;
                 case 40 : this.pieceMoveToYAxis(1)
                     break;
+                case 88 : this.rotatePieceToRight()
+                    break;
+                case 89 : this.rotatePieceToLeft()
+                    break;
+                default : break;
             
             }
 
@@ -56,6 +61,19 @@ class App extends Component {
         return grid
     }
 
+    mergePieceToGrid = () => {
+    const virtualGrid = this.state.grid
+
+     this.state.piece.mergeData.forEach((element) => {
+         const [y, x] = element.split(" _ ")
+         virtualGrid[y][x] = this.state.piece.color
+     })
+        this.setState({grid : virtualGrid , piece : null}, () => {
+            this.generatePiece();
+        })
+        console.log(this.state.grid)
+    }
+
     //PIECE FONCTIONS
     generatePiece = () =>{
         let piece = {}
@@ -63,6 +81,7 @@ class App extends Component {
         piece.posY = 0
         piece.grid = pieceCollection[0]
         piece.mergeData = []
+        piece.color = Math.floor(Math.random() *5)+1
         let coordinate = this.pieceCanBeMove(piece)
   
         if (coordinate !== false){
@@ -123,9 +142,66 @@ class App extends Component {
             piece.mergeData = coordinate 
             this.setState({piece})
          
+        } else {
+            this.mergePieceToGrid()
         }
         
     }
+    
+    rotatePieceToRight = () => {
+        let piece = { ... this.state.piece}
+        if (piece ===null){
+            return false
+        }
+        let newGrid = []
+        console.log(piece.grid)
+        for (let x = 0; x<piece.grid[0].length; x++) {
+            let line = []
+            for(let y = piece.grid.length-1; y>-1; y--){
+                line.push(piece.grid[y][x])
+        }
+    
+        newGrid.push(line)
+}
+    piece.grid = newGrid
+    let coordinate = this.pieceCanBeMove(piece)
+    if (coordinate !== false) {
+        piece.mergeData = coordinate 
+        this.setState({piece})
+    
+    } else {
+        //pas de rotation
+    }
+
+}
+
+rotatePieceToLeft = () => {
+    let piece = { ... this.state.piece}
+    if (piece ===null){
+        return false
+    }
+    let newGrid = []
+    console.log(piece.grid)
+    for (let x = piece.grid[0].length-1; x>-1; x--) {
+        let line = []
+        for(let y = 0; y<piece.grid.length; y++){
+            line.push(piece.grid[y][x])
+    }
+
+    newGrid.push(line)
+}
+piece.grid = newGrid
+let coordinate = this.pieceCanBeMove(piece)
+if (coordinate !== false) {
+    piece.mergeData = coordinate 
+    this.setState({piece})
+
+} else {
+    //pas de rotation
+}
+
+}
+
 
 
   render(){
