@@ -31,27 +31,73 @@ class App extends Component {
 
     componentDidMount() {
         this.initGame()
+        let keyPressed = []
+        let multipleKeyPressed = false
         window.addEventListener("keyup", (e) => {
+            multipleKeyPressed = false
+            let index = keyPressed.indexOf(e.keyCode)
+            keyPressed.splice(index ,1)
+        })
+
+        window.addEventListener("keydown", (e) => {
             console.log(e.keyCode)
-            switch (e.keyCode) {
-                case 39: this.pieceMoveToXAxis(1)
-                    break;
-                case 37 : this.pieceMoveToXAxis(-1)
-                    break;
-                case 40 : this.pieceMoveToYAxis(1)
-                    break;
-                case 88 : this.rotatePiece("right")
-                    break;
-                case 89 : this.rotatePiece("left")
-                    break;
-                default : break;
-            
+           if (keyPressed.indexOf(e.keyCode) === -1) {
+                keyPressed.push(e.keyCode)
             }
+
+           if (keyPressed.length> 1) {
+                keyPressed.forEach(
+                   (keyCode, index) => {
+                       if (multipleKeyPressed === false && index === 0) {
+                       multipleKeyPressed = true
+                       } else {
+                        this.exectueKeyCode(keyCode)
+                       }
+                   }
+                )
+            } else{
+                this.exectueKeyCode(keyPressed[0])
+            }
+
+
+
+            // switch (e.keyCode) {
+            //     case 39: this.pieceMoveToXAxis(1)
+            //         break;
+            //     case 37 : this.pieceMoveToXAxis(-1)
+            //         break;
+            //     case 40 : this.pieceMoveToYAxis(1)
+            //         break;
+            //     case 88 : this.rotatePiece("right")
+            //         break;
+            //     case 89 : this.rotatePiece("left")
+            //         break;
+            //     default : break;
+            
+            // }
 
             //37 gauche
             //39 droite
             // 40 bas
     })
+  }
+
+  exectueKeyCode = (keyCode) => {
+    switch (keyCode) {
+        case 39: this.pieceMoveToXAxis(1)
+            break;
+        case 37 : this.pieceMoveToXAxis(-1)
+            break;
+        case 40 : this.pieceMoveToYAxis(1)
+            break;
+        case 88 : this.rotatePiece("right")
+            break;
+        case 89 : this.rotatePiece("left")
+            break;
+        default : break;
+    
+    }
+
   }
 
   //TIMER FONCTION
@@ -158,7 +204,7 @@ class App extends Component {
         let piece = {}
         piece.posX = 0
         piece.posY = 0
-        let indexPieceCollection = [Math.floor(Math.random() * pieceCollection.length)]
+        let indexPieceCollection = Math.floor(Math.random() * pieceCollection.length)
         piece.mergeData = []
         piece.grid = pieceCollection[indexPieceCollection]
         piece.color = indexPieceCollection + 1 
