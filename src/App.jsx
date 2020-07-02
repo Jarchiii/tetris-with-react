@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import Grid from './Grid'
 import pieceCollection from './pieceCollection'
+import NextPiece from './NextPiece'
 import './App.css';
 
 class App extends Component {
@@ -12,14 +13,15 @@ class App extends Component {
         gridWidth : 8,
         piece: null,
         nbrCleanLine : 0,
-        lvl : 1
+        lvl : 1,
+        nextPieceIndex: null
     }
 
     //preview next piece
 
 
     initGame = () => {
-        this.setState({grid: this.buildGrid()}, () => {
+        this.setState({grid: this.buildGrid(), nextPieceIndex: this.generateNextPieceIndex()}, () => {
          this.generatePiece()
          this.launchTimer()
         })
@@ -200,11 +202,19 @@ class App extends Component {
     
 
     //PIECE FONCTIONS
+
+    generateNextPieceIndex(){
+        return Math.floor(Math.random() * pieceCollection.length)
+
+    }
+
+
+
     generatePiece = () =>{
         let piece = {}
         piece.posX = 0
         piece.posY = 0
-        let indexPieceCollection = Math.floor(Math.random() * pieceCollection.length)
+        let indexPieceCollection = this.state.nextPieceIndex
         piece.mergeData = []
         piece.grid = pieceCollection[indexPieceCollection]
         piece.color = indexPieceCollection + 1 
@@ -213,7 +223,7 @@ class App extends Component {
             piece.posY--
         }
 
-        piece.posX= Math.floor((this.state.gridWidth - piece.grid[0].length)/2)
+        piece.posX= Math.floor((this.state.gridWidth - piece.grid[0].length)/2) //center the piece
 
 
 
@@ -221,7 +231,7 @@ class App extends Component {
   
         if (coordinate !== false){
             piece.mergeData = coordinate
-            this.setState({piece})
+            this.setState({piece, nextPieceIndex:this.generateNextPieceIndex()})
         } else {
             this.closeGame()
         }
@@ -361,10 +371,17 @@ class App extends Component {
       <h1>Tetris</h1>
       <p className="score">{this.state.nbrCleanLine}</p>
       <p className="lvl">Level : {this.state.lvl}</p>
-      {this.state.grid  !== null &&
+      <p>Next piece</p>
+      {
+          this.state.nextPieceIndex !== null && 
+          <NextPiece grid={pieceCollection[this.state.nextPieceIndex]}/>
+
+      }
+      {
+       this.state.grid  !== null &&
        <Grid 
-       grid={this.state.grid}
-       piece={this.state.piece}
+            grid={this.state.grid}
+            piece={this.state.piece}
        />}
       </div>
     )

@@ -1,8 +1,8 @@
-#grid{
+.grid{
 
 }
 
-#grid span {
+.grid span {
   width: 30px;
   height:30px;
   display : block;
@@ -11,11 +11,11 @@
 
 }
 
-#grid span.first{
+.grid span.first{
   clear : both
 }
 
-#grid span.color{
+.grid span.color{
   background-color: black;
   color: aliceblue;
 }
@@ -46,4 +46,16 @@
 
 .colorizedEmptyCellule-7 {
   background: red;
+}
+
+.grid span.projection:not(.color){
+  background-color: peachpuff;
+}
+
+
+#nextPiece{
+  position: absolute;
+  right : 100px;
+  top : 100px
+
 }
