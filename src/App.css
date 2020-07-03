@@ -1,3 +1,32 @@
+body {
+  background: slateblue;
+}
+
+#wrapper_tetris{
+  text-align:   center;
+}
+
+h1{
+  color: white;
+  text-transform: uppercase;
+  font-weight:  bold;
+  font-size: 100px;
+}
+
+#menu button{
+  background: rebeccapurple;
+  border: 0;
+  color : white;
+  font-weight: bold;
+  min-width : 150px;
+  padding : 10px 0;
+  text-transform: uppercase;
+  display: block;
+  margin : 0 auto 10px auto;
+  font-size: 30px
+}
+
+
 .grid{
 
 }
