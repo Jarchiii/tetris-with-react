@@ -1,10 +1,13 @@
 import React from 'react'
-import './App.css';
+import './App.scss';
 
 function NextPiece({grid}) {
  console.log("ici", grid)
     return (
-        <div id="nextPiece" className="grid">
+        <div id="wrapper_next_piece" className="grid">
+            			<span className="title">NEXT PIECE</span>
+                        <div id="next_piece" className="grid">
+
             {
                 grid.map(
                     (line, y) => {
@@ -31,19 +34,20 @@ function NextPiece({grid}) {
 
 
                                 if ((grid[y][x] > 0)) {
-                                    classes.push('color')
+                                    classes.push("color-" +  grid[y][x])
                                     value = grid[y][x]
                                 }
 
 
                                 return <span key={x + " _ " + y} className={classes.join(" ")}>
-                                   {value}
+                                
                                 </span>
                             }
                         )
                     }
                 )
             }
+        </div>
         </div>
     )
 }

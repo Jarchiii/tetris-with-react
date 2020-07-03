@@ -1,5 +1,5 @@
 import React from 'react'
-import './App.css';
+import './App.scss';
 
 function Grid({grid ,piece}) {
  grid = colorizedEmptyCellule(grid)
@@ -22,10 +22,13 @@ let projectionCoordinate = []
                                     classes.push("first")
                                 }
                                 if (piece !==null){
-                                    if ((piece !==null && piece.mergeData.indexOf(y+" _ "+x) !==-1)) {
-                                        classes.push("color")
+                                  
+                                    console.log("lala", piece.mergeData)
 
-                                        value = piece.color
+                                    if ((piece !==null && piece.mergeData.indexOf(y+"_"+x) !==-1)) {
+                                        classes.push("color-" + piece.color)
+                                      console.log("lala", piece.mergeData)
+                                   
                                     }
                                 }
 
@@ -46,13 +49,13 @@ let projectionCoordinate = []
 
 
                                 if ((grid[y][x] > 0)) {
-                                    classes.push('color')
+                                    classes.push("color-" +  grid[y][x])
                                     value = grid[y][x]
                                 }
 
 
                                 return <span key={x + " _ " + y} className={classes.join(" ")}>
-                                   {value}
+                                  
                                 </span>
                             }
                         )

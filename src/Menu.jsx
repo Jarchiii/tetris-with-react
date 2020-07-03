@@ -1,14 +1,15 @@
 import React from 'react'
-import './App.css';
+import './App.scss';
 
 function Menu({actions}) {
 
 
     return (
         <div id="menu">
-            <h1>Tetris</h1>
+                        <h1>Tetris</h1>
+
             <button onClick={() => actions.launchGame()}>Play</button>
-            <button onClick={() => actions.launchOptions()}>Option</button>
+            {/* <button onClick={() => actions.launchOptions()}>Option</button> */}
         </div>
     )
 }

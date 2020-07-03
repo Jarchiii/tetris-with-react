@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald:500&display=swap');
+
+.clearfix{
+	&:after{
+		content: " ";
+		clear: both;
+		display: table;
+	}
+}
+
+$darkpurple : slateblue;
+$purple: white;
+$lightpurple : white;
+
+$pieceColors: (
+	"1"	#6484fc,
+	"2"	#f1e903,
+	"3"	#f8519c,
+	"4"	#7cd252,
+	"5"	#932ff6,
+	"6"	#37d3d9,
+	"7"	#e3434e,
+);
+
+$cellWidth:30px;
+$cellHeight:30px;
+
+body{
+	background: $darkpurple;
+	padding-bottom: 50px;
+}
+
+#wrapper_lost_game{
+	h2{
+		font-size: 80px;
+		color: $purple;
+		margin: 0;
+	}
+	.score{
+		margin: 20px 100px;
+		font-size: 50px;
+		color: white;
+		border: 2px dashed white;
+		padding: 20px 0;
+		
+	}
+}
+
+#wrapper_tetris{
+	text-align: center;
+	padding-top: 120px;
+}
+h1{
+	color: $purple;
+	text-transform: uppercase; 
+	font-weight: bold;
+	font-size: 100px;
+	display: inline-block;
+	margin: 0;
+}
+#menu button{
+	background: $lightpurple;
+	border: 0;
+	color: $darkpurple;
+	font-weight: bold;
+	width: 330px;
+	padding: 10px 0;
+	text-transform: uppercase; 
+	display: block;
+	margin: 0 auto 10px auto;
+	font-size: 30px;
+}
+
+.grid span.color{
+	background: black;
+	color: white;
+}
+.grid span.first{
+	clear: both;
+}
+
+.grid span.projection:not([class*=color-]){
+	background: grey;
+}
+
+
+
+//GRID DESIGN
+#wrapper_grid{
+	position: relative;
+	display: inline-block;	
+}
+#grid{
+	position: relative;
+	display: inline-block;
+	background: black;
+	box-shadow: 0 0 10px -5px #15111a;
+	&:before{
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 75%;
+		z-index: -1;
+		box-shadow: 0 0 10px 2px #040205;
+	}
+	span{
+		display: block;
+		float: left;
+		width: $cellWidth;
+		height:$cellHeight;
+		position: relative;
+		&:before{
+			content: "";
+			position: absolute;
+			width: 3px;
+			height: 3px;
+			left: 50%;
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			background: white;
+			border-radius: 50%;
+		}
+		&[class*=color-]{
+			&::before{
+				display: none;
+			}	
+		}
+	}
+	@extend .clearfix;
+}
+
+@each $color in $pieceColors{
+	#grid span.colorizedEmptyCellule-#{nth($color,1)}{
+		&:before{
+			background: nth($color,2);
+		}
+	}
+	.grid span.color-#{nth($color,1)}{
+		background: nth($color,2);
+	}
+}
+
+.ui-text{
+	div:first-child{
+		margin-bottom: 30px;
+	}
+	span{
+		font-family: 'Oswald', sans-serif;
+		font-weight: 500;
+		font-size: 30px;
+		line-height: 1;
+	}
+	.title{
+		color: $purple;
+	}
+	.value{
+		color: $lightpurple;
+	}
+}
+
+#level_and_line{
+	position: absolute;
+	right: calc( 100% + 30px );
+	bottom: 5px;
+	span{
+		text-align: right;
+		display: block;
+	}
+}
+
+#time_and_score{
+	position: absolute;
+	left: calc( 100% + 30px );
+	bottom: 5px;
+	span{
+		text-align: left;
+		display: block;
+	}
+}
+
+#wrapper_next_piece{
+	position: absolute;
+	left: calc( 100% + 30px );
+	top: 0;
+	width: 300px;
+	.title{
+		display: block;
+		font-family: 'Oswald', sans-serif;
+		font-weight: 500;
+		font-size: 30px;
+		line-height: 1;
+		color: $purple;
+		text-align: left;
+	}
+}
+#next_piece{
+	position: relative;
+	@extend .clearfix;
+	display: inline-block;
+	float: left;
+	margin-left: 5px;
+	margin-top: 25px;
+	&:before{
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	span{
+		display: block;
+		float: left;
+		width: $cellWidth;
+		height:$cellHeight;
+		position: relative;
+		&[class*=color-]{
+			position: relative;
+			&:before{
+				content: "";
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translateX(-50%) translateY(-50%);
+				width: calc( #{$cellWidth} + 10px );
+				height: calc( #{$cellWidth} + 10px );
+				background: $purple;
+				z-index: -1;
+			}
+		}
+	}
+}
